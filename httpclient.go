@@ -23,7 +23,7 @@ import (
 
 // returns the current version of the package
 func Version() string {
-	return "0.4.1"
+	return "0.5.0 (umpc)"
 }
 
 // Transport implements the RoundTripper interface and can be used as a replacement
@@ -84,6 +84,10 @@ type Transport struct {
 	// ConnectTimeout, if non-zero, is the maximum amount of time a dial will wait for
 	// a connect to complete.
 	ConnectTimeout time.Duration
+
+	// IdleConnTimeout, if non-zero, is the maximum amount of time an idle
+	// (keep-alive) connection will remain idle before closing itself.
+	IdleConnTimeout time.Duration
 
 	// ResponseHeaderTimeout, if non-zero, specifies the amount of
 	// time to wait for a server's response headers after fully
@@ -161,6 +165,7 @@ func (t *Transport) lazyStart() {
 		DisableKeepAlives:     t.DisableKeepAlives,
 		DisableCompression:    t.DisableCompression,
 		MaxIdleConnsPerHost:   t.MaxIdleConnsPerHost,
+		IdleConnTimeout:       t.IdleConnTimeout,
 		ResponseHeaderTimeout: t.ResponseHeaderTimeout,
 	}
 }
